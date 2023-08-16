@@ -24,28 +24,28 @@ public class WebSecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     boolean IS_WEB_SECURITY = true;
 
-    if (IS_WEB_SECURITY) {
+    if (!IS_WEB_SECURITY) {
       http
+          /*** csrf ***/
           .csrf(csrf -> csrf.disable())
+          .cors(Customizer.withDefaults())
           .authorizeHttpRequests(authorize -> authorize
-              .requestMatchers("/public", "/static/**").permitAll()
+              .requestMatchers("/**").permitAll()
               .anyRequest().authenticated())
-          .formLogin(login -> login
-              .loginPage("/login").permitAll()
-              .successHandler(authenticationSuccessHandler()))
+          .formLogin(login -> login.loginPage("/login").permitAll())
           .logout(logout -> logout.permitAll());
 
       return http.build();
     }
 
     http
-        /*** csrf ***/
         .csrf(csrf -> csrf.disable())
-        .cors(Customizer.withDefaults())
         .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/**").permitAll()
+            .requestMatchers("/public", "/static/**").permitAll()
             .anyRequest().authenticated())
-        .formLogin(login -> login.loginPage("/login").permitAll())
+        .formLogin(login -> login
+            .loginPage("/login").permitAll()
+            .successHandler(authenticationSuccessHandler()))
         .logout(logout -> logout.permitAll());
 
     return http.build();
