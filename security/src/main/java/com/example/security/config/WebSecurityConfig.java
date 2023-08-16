@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,35 +26,27 @@ public class WebSecurityConfig {
 
     if (IS_WEB_SECURITY) {
       http
-          .csrf().disable()
-          .authorizeHttpRequests()
-          .requestMatchers("/auth/account/add", "/regis", "/static/**", "/echo", "/lpr/event", "/assets/**", "/svg/**",
-              "/lpr/latest")
-          .permitAll()
-          .anyRequest().authenticated()
-          .and()
-          .formLogin()
-          .loginPage("/login").permitAll()
-          .successHandler(authenticationSuccessHandler())
-          .and()
-          .logout().permitAll();
+          .csrf(csrf -> csrf.disable())
+          .authorizeHttpRequests(authorize -> authorize
+              .requestMatchers("/public", "/static/**").permitAll()
+              .anyRequest().authenticated())
+          .formLogin(login -> login
+              .loginPage("/login").permitAll()
+              .successHandler(authenticationSuccessHandler()))
+          .logout(logout -> logout.permitAll());
 
       return http.build();
     }
 
     http
         /*** csrf ***/
-        .csrf().disable()
-        /*** cors ***/
-        .cors().and()
-        .authorizeHttpRequests()
-        .requestMatchers("/**").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .formLogin()
-        .loginPage("/login").permitAll()
-        .and()
-        .logout().permitAll();
+        .csrf(csrf -> csrf.disable())
+        .cors(Customizer.withDefaults())
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/**").permitAll()
+            .anyRequest().authenticated())
+        .formLogin(login -> login.loginPage("/login").permitAll())
+        .logout(logout -> logout.permitAll());
 
     return http.build();
   }
