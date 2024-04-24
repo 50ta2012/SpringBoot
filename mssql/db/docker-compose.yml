@@ -1,0 +1,12 @@
+name: mssql-demo
+services:
+  sql01:
+    image: mcr.microsoft.com/mssql/server:latest
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=UtPJ+b5s956bZA==
+      - TZ=Asia/Taipei
+    container_name: sql01
+    ports:
+      - "1434:1433"

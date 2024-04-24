@@ -1,0 +1,17 @@
+spring:
+  application.name: mssql
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      database-platform: org.hibernate.dialect.SQLServerDialect
+    open-in-view: false
+
+  datasource:
+    url: jdbc:sqlserver://${MSSQL_HOST:localhost}:${MSSQL_PORT:1434};encrypt=true;trustServerCertificate=true;databaseName=sql01
+    # driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: berlin
+    password: MuqiawTDfqs7kw==
+  
+  
+
