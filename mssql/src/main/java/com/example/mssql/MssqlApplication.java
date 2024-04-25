@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-// import com.example.mssql.entity.Profile;
+import com.example.mssql.entity.Profile;
 import com.example.mssql.entity.ProfileRepository;
 
 @SpringBootApplication
@@ -23,8 +23,8 @@ public class MssqlApplication {
   @Bean
   CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return arg -> {
-      // Profile profile = new Profile("Berlin", 30, "Rotary");
-      // System.out.println(profileRepository.save(profile));
+      Profile profile = new Profile("Berlin", 30, "Rotary");
+      System.out.println(profileRepository.save(profile));
 
       // System.out.println(profileRepository.findAll());
     };

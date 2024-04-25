@@ -7,6 +7,9 @@ services:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=UtPJ+b5s956bZA==
       - TZ=Asia/Taipei
+    volumes:
+      - ./backup:/var/opt/mssql/backup
+      - ./init:/var/opt/mssql/init
     container_name: sql01
     ports:
       - "1434:1433"

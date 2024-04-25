@@ -11,7 +11,7 @@
 ## 使用 sqlcmd 登入 ms sql
 
 ```bash
-docker exec -it sql01 bash
+docker exec -it --user root sql01 bash
 
 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'UtPJ+b5s956bZA=='
 ```
@@ -34,9 +34,13 @@ go
 -- go
 ```
 
+```bash
+/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'UtPJ+b5s956bZA==' -i /var/opt/mssql/init/init.sql
+```
+
 ## mssql 基本指令
 
-SHOW GRANTS
+權限查看 (SHOW GRANTS)
 
 ```sql
 USE sql01;
@@ -52,9 +56,26 @@ WHERE
 go
 ```
 
-DROP TABLE
+刪表 (DROP TABLE)
 ```sql
 USE sql01;
-DROP TABLE dbo.my_user;
+DROP TABLE dbo.profile;
 go
+```
+
+備份 (Backup)
+```sql
+use master;
+BACKUP DATABASE sql01 TO DISK='sql01-001.bak'
+```
+
+還原 (Restore)
+```sql
+use master;
+RESTORE DATABASE sql01 FROM DISK = 'sql01-001.bak' WITH REPLACE, RECOVERY;
+```
+
+載入 SQL (import)
+```bash
+/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P UtPJ+b5s956bZA== -i /var/opt/mssql/backup/dump.sql
 ```
