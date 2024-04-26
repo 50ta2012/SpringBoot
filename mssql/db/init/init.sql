@@ -1,3 +1,7 @@
+USE master;
+CREATE LOGIN aster WITH PASSWORD = '8gKP2hN1duFMetrH';
+ALTER SERVER ROLE sysadmin ADD MEMBER aster;
+go
 CREATE DATABASE sql01;
 go
 USE sql01;
