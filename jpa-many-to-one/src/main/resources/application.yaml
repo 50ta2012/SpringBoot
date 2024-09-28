@@ -1,0 +1,22 @@
+spring.application.name: jpa-many-to-one
+
+spring:
+  output.ansi.enabled: ALWAYS
+
+  jpa.hibernate.ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:9999}/jpa
+    username: root
+    password: 1234
+    # HikariPool-1 warning
+    # hikari.maxLifeTime: 600000
+
+  jpa.open-in-view: false
+
+logging:
+  file:
+    path: log
+    name: log/cms.log
+
+server.port: ${SERVER_PORT:8080}

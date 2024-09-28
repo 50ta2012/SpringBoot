@@ -1,0 +1,13 @@
+name: jpa-many-to-one
+
+services:
+  db:
+    image: mysql:latest
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    container_name: jpa-db
+    ports:
+      - 9999:3306
