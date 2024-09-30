@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.jpa_many_to_one.entity.Author;
-import com.example.jpa_many_to_one.entity.AuthorDTO;
 import com.example.jpa_many_to_one.entity.AuthorRepository;
 import com.example.jpa_many_to_one.entity.Book;
-import com.example.jpa_many_to_one.entity.BookDTO;
 import com.example.jpa_many_to_one.entity.BookRepository;
 
 @RestController
@@ -31,13 +29,13 @@ public class AuthorController {
   BookRepository bookRepository;
 
   @PostMapping("/add")
-  public AuthorDTO addAuthor(@RequestBody Author author) {
+  public Author addAuthor(@RequestBody Author author) {
 
-    return new AuthorDTO(authorRepository.save(author));
+    return new Author().setAuthorDTO(authorRepository.save(author));
   }
 
   @GetMapping("/author/{id}")
-  public AuthorDTO getAuthorById(@PathVariable("id") String id) {
+  public Author getAuthorById(@PathVariable("id") String id) {
 
     Optional<Author> authorOptional = authorRepository.findById(id);
 
@@ -45,21 +43,21 @@ public class AuthorController {
       return null;
     }
 
-    return new AuthorDTO(authorOptional.get());
+    return new Author().setAuthorDTO(authorOptional.get());
   }
 
   @GetMapping("/author/all")
-  public List<AuthorDTO> getAllAuthors() {
+  public List<Author> getAllAuthors() {
 
     return authorRepository.findAll().stream()
-        .map(author -> new AuthorDTO(author))
+        .map(author -> new Author().setAuthorDTO(author))
         .collect(Collectors.toList());
   }
 
   @GetMapping("/book/all")
-  public List<BookDTO> getAllBooks() {
+  public List<Book> getAllBooks() {
     return bookRepository.findAll().stream()
-        .map(book -> new BookDTO(book))
+        .map(book -> new Book().setBookDTO(book))
         .collect(Collectors.toList());
   }
 
@@ -84,7 +82,7 @@ public class AuthorController {
   @GetMapping("/delete/all")
   public void deleteAll() {
     authorRepository.deleteAll();
-    bookRepository.deleteAll();
+    // bookRepository.deleteAll();
   }
 
   @DeleteMapping("/author/{authorId}")
