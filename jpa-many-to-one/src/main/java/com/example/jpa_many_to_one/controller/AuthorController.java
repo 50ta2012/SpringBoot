@@ -113,4 +113,17 @@ public class AuthorController {
     authorRepository.save(authorInDb);
     return "Success";
   }
+
+  @PostMapping("/book/update")
+  public Book updateBookByBookId(@RequestBody Book book) {
+    Optional<Book> optionalBook = bookRepository.findById(book.getId());
+    if (optionalBook.isEmpty()) {
+      return null;
+    }
+
+    Book bookInDb = optionalBook.get();
+    bookInDb.setTitle(book.getTitle());
+
+    return new Book().setBookDTO(bookRepository.save(bookInDb));
+  }
 }
