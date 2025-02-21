@@ -12,26 +12,19 @@ import jakarta.persistence.Transient;
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Book {
+public class PassRecord {
   @Id
   @UuidGenerator
   String id;
 
-  String title;
+  String plateNumber;
 
   @ManyToOne
-  @JoinColumn(name = "author_id")
-  Author author;
+  @JoinColumn(name = "student_id", nullable = true)
+  Student student;
 
   @Transient
-  String authorId;
-
-  public Book setBookDTO(Book book) {
-    this.id = book.id;
-    this.title = book.title;
-    this.authorId = book.author.id;
-    return this;
-  }
+  String studentId;
 
   public String getId() {
     return this.id;
@@ -41,19 +34,28 @@ public class Book {
     this.id = id;
   }
 
-  public String getTitle() {
-    return this.title;
+  public String getPlateNumber() {
+    return this.plateNumber;
   }
 
-  public void setTitle(String title) {
-    this.title = title;
+  public void setPlateNumber(String plateNumber) {
+    this.plateNumber = plateNumber;
   }
 
-  public Author getAuthor() {
-    return this.author;
+  public Student getStudent() {
+    return this.student;
   }
 
-  public void setAuthor(Author author) {
-    this.author = author;
+  public void setStudent(Student student) {
+    this.student = student;
   }
+
+  public String getStudentId() {
+    return this.studentId;
+  }
+
+  public void setStudentId(String studentId) {
+    this.studentId = studentId;
+  }
+
 }
